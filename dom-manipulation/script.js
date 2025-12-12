@@ -47,7 +47,7 @@ function createAddQuoteForm ()
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button id="addQuoteBtn">Add Quote</button>
     <br><br>
-    <button id="exportQuotes">Export Quotes to JSON</button>
+    <button id="exportQuotes">Export Quotes</button>
     <input type="file" id="importFile" accept=".json" />
   `;
 
