@@ -1,3 +1,45 @@
+const SERVER_URL = "https://jsonplaceholder.typicode.com/posts";
+
+async function fetchServerQuotes ()
+{
+  const response = await fetch( SERVER_URL );
+  const data = await response.json();
+
+  // Simulate quotes from server
+  return data.slice( 0, 5 ).map( post => ( {
+    text: post.title,
+    category: "Server"
+  } ) );
+}
+
+async function syncWithServer ()
+{
+  const serverQuotes = await fetchServerQuotes();
+
+  // Conflict resolution: server data wins
+  quotes = serverQuotes;
+
+  saveQuotes();
+  populateCategories();
+  filterQuotes();
+
+  notifyUser( "Quotes synced with server. Server data applied." );
+}
+
+setInterval( syncWithServer, 30000 );
+
+document.getElementById( "syncNow" ).addEventListener( "click", syncWithServer );
+
+
+
+function notifyUser ( message )
+{
+  alert( message );
+}
+
+
+
+
 let quotes = [
   { text: "The only way to do great work is to love what you do.", category: "Motivation" },
   { text: "Wisdom begins in wonder.", category: "Philosophy" },
@@ -190,5 +232,7 @@ if ( savedCategory )
   document.getElementById( "categoryFilter" ).value = savedCategory;
 }
 
+populateCategories();
 filterQuotes();
+syncWithServer();
 
