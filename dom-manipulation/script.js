@@ -26,9 +26,22 @@ async function syncWithServer ()
   notifyUser( "Quotes synced with server. Server data applied." );
 }
 
+async function postQuoteToServer ( quote )
+{
+  await fetch( SERVER_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify( quote )
+  } );
+}
+
+
 setInterval( syncWithServer, 30000 );
 
 document.getElementById( "syncNow" ).addEventListener( "click", syncWithServer );
+
 
 
 
