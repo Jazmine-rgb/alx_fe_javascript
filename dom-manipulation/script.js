@@ -84,6 +84,10 @@ function addQuote ()
   // Clear input fields
   document.getElementById( "newQuoteText" ).value = "";
   document.getElementById( "newQuoteCategory" ).value = "";
+
+  populateCategories();
+  filterQuotes();
+
 }
 
 function exportToJson ()
@@ -121,9 +125,70 @@ function importFromJsonFile ( event )
   fileReader.readAsText( event.target.files[ 0 ] );
 }
 
+function populateCategories ()
+{
+  const categoryFilter = document.getElementById( "categoryFilter" );
+
+  // Clear existing categories except "All"
+  categoryFilter.innerHTML = `<option value="all">All Categories</option>`;
+
+  // Extract unique categories
+  const categories = [ ...new Set( quotes.map( quote => quote.category ) ) ];
+
+  categories.forEach( category =>
+  {
+    const option = document.createElement( "option" );
+    option.value = category;
+    option.textContent = category;
+    categoryFilter.appendChild( option );
+  } );
+}
+
+function filterQuotes ()
+{
+  const selectedCategory = document.getElementById( "categoryFilter" ).value;
+
+  // Save selected filter to localStorage
+  localStorage.setItem( "selectedCategory", selectedCategory );
+
+  let filteredQuotes;
+
+  if ( selectedCategory === "all" )
+  {
+    filteredQuotes = quotes;
+  } else
+  {
+    filteredQuotes = quotes.filter(
+      quote => quote.category === selectedCategory
+    );
+  }
+
+  
+  const quoteDisplay = document.getElementById( "quoteDisplay" );
+  quoteDisplay.innerHTML = "";
+
+  filteredQuotes.forEach( quote =>
+  {
+    const quoteElement = document.createElement( "p" );
+    quoteElement.textContent = `"${ quote.text }" — ${ quote.category }`;
+    quoteDisplay.appendChild( quoteElement );
+  } );
+}
+
+
+
 
 // Attach event listener for Show New Quote button
 document.getElementById( "newQuote" ).addEventListener( "click", showRandomQuote );
 
 // Create the form as soon as the page loads
 createAddQuoteForm();
+
+const savedCategory = localStorage.getItem( "selectedCategory" );
+if ( savedCategory )
+{
+  document.getElementById( "categoryFilter" ).value = savedCategory;
+}
+
+filterQuotes();
+
