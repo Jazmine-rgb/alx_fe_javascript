@@ -1,6 +1,6 @@
 const SERVER_URL = "https://jsonplaceholder.typicode.com/posts";
 
-async function fetchServerQuotes ()
+async function fetchQuotesFromServer ()
 {
   const response = await fetch( SERVER_URL );
   const data = await response.json();
