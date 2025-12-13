@@ -23,7 +23,7 @@ async function syncQuotes ()
   populateCategories();
   filterQuotes();
 
-  notifyUser( "Quotes synced with server. Server data applied." );
+  notifyUser( "Quotes synced with server! Server data applied." );
 }
 
 async function postQuoteToServer ( quote )
