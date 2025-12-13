@@ -12,7 +12,7 @@ async function fetchQuotesFromServer ()
   } ) );
 }
 
-async function syncWithServer ()
+async function syncQuotes ()
 {
   const serverQuotes = await fetchServerQuotes();
 
